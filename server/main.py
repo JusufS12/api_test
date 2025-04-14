@@ -14,5 +14,8 @@ def get_data():
 
 @app.route('/api/speedtest', methods=['GET'])
 def get_speed():
-  down_speed, up_speed = test_speed()
-  return jsonify({'download': str()})
+  (down_speed, up_speed) = test_speed()
+  return jsonify({
+    'download': str(down_speed),
+    'upload': str(up_speed)
+  })
