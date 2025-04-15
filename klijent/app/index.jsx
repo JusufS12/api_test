@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 
 
@@ -9,11 +9,9 @@ export default function Index() {
 
   useEffect(async () => {
     try {
-      const response = await fetch(
-        'http://localhost:5000/api/data',
-      );
+      const response = await fetch('http://localhost:5000/api/speedtest');
       const json = await response.json();
-      setData(json['message']);
+      setData(json['download']);
     } catch (e) {
       setError(e);
     }
@@ -28,8 +26,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-
-      <Text>{data ? data : error.toString()}</Text>
+      <View>
+        {error ? error.toString() : (data ? data : <ActivityIndicator size="large" />)}
+      </View>
     </View>
   );
 }
