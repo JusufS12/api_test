@@ -32,7 +32,10 @@ export default function Index() {
     >
       <View>
         {error ? error.toString() : (data ? 
-        <Text>Download speed: {data.download}{"\n"}Upload speed: {data.upload}</Text>
+        <>
+          <Text>Download speed: {data['download']}</Text>
+          <Text>Upload speed: {data['upload']}</Text>
+        </>
          : <ActivityIndicator size="large" />)}
       </View>
     </View>

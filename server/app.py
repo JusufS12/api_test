@@ -3,9 +3,14 @@ from flask_cors import CORS
 from testspeed import test_speed
 from threading import Thread
 import time
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 CORS(app)
+
+load_dotenv()
+app.config['DEBUG'] = os.environ.get('FLASK_DEBUG')
 
 
 latest_speed = {'download': 0, 'upload': 0}
@@ -31,7 +36,7 @@ def update_speed():
 def get_data():
   return jsonify({'message': 'Hello from Flask!'})
 
-@app.route('/api/speedtest', methods=['GET'])
+@app.route('/api/speedtest')
 def get_speed():
   return jsonify(latest_speed)
 
@@ -42,4 +47,4 @@ def get_speed():
 if __name__ == '__main__':
     print("[Flask] Starting server...")
     Thread(target=update_speed, daemon=True).start()
-    app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+    app.run(host='0.0.0.0', port=5000, use_reloader=False)
