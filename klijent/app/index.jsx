@@ -7,16 +7,20 @@ export default function Index() {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
-  useEffect(async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/speedtest');
-      const json = await response.json();
-      setData(json);
-    } catch (e) {
-      setError(e);
-    }
-  }, [])
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/speedtest');
+        const json = await response.json();
+        setData(json);
+      } catch (e) {
+        setError(e.message || 'Unknown error');
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
 
   return (
     <View
@@ -28,11 +32,7 @@ export default function Index() {
     >
       <View>
         {error ? error.toString() : (data ? 
-        <>
-          <Text>Download speed: {data['download']}</Text>
-          <br />
-          <Text>Upload speed: {data['upload']}</Text>
-        </>
+        <Text>Download speed: {data.download}{"\n"}Upload speed: {data.upload}</Text>
          : <ActivityIndicator size="large" />)}
       </View>
     </View>
